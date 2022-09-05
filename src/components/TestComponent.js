@@ -1,30 +1,28 @@
 import { useSelector, useDispatch } from 'react-redux'
 
+import { mySliceActions } from '../store/index'
+
 const TestComponent = (props) => {
     const dispatch = useDispatch()
     const returnVal = useSelector((state) => state.someStateVal)
     
     const someHandler = () => {
-        dispatch({ type: 'someAction'})
+        dispatch(mySliceActions.someAction())
     }
 
-    const someHandlerWithSamepleProperty = () => {
-        dispatch({ type: 'someActionWithPayload', samplePropertyFromADispatch: 'AND A SAMPLE PROPERTY ON DISPATCH!!!' })
+    const someHandlerWithPayload = () => {
+        dispatch(mySliceActions.someActionWithPayload('this is always stored on payload property'))
     }
 
-    const someHandlerWithSameplePropertyFromProps = () => {
-        dispatch({ type: 'someActionWithPayload', samplePropertyFromADispatch: props.sampleProperty })
-    }
     const clearState = () => {
-        dispatch({ type: 'clearState'})
+        dispatch(mySliceActions.clearState())
     }
     
     return (
         <div>
             <h3>{returnVal}</h3>
             <button onClick={someHandler}>someHandler</button><br />
-            <button onClick={someHandlerWithSamepleProperty}>someHandlerWithSamplePropertyOnDispatch</button><br />
-            <button onClick={someHandlerWithSameplePropertyFromProps}>someHandlerWithPayloadFromProps</button><br />
+            <button onClick={someHandlerWithPayload}>someHandlerWithPayload</button><br />
             <button onClick={clearState}>clearStateHandler</button><br />
         </div>
     )

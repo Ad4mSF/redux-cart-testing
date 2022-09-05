@@ -1,30 +1,42 @@
-import { createStore } from 'redux'
+// import { createStore } from 'redux' COULD ALSO USE combineReducers here
+import { createSlice, configureStore } from '@reduxjs/toolkit';
 
-const myReducer = ((state = { someStateVal: 'this is initial state. '}, action) => {
-    if (action.type === 'someAction') {
-        return {
-            someStateVal: state.someStateVal.concat('It has been changed by someAction. ')
-        }
-    }
-    if (action.type === 'someActionWithPayload') {
-        return {
-            someStateVal: state.someStateVal.concat(action.samplePropertyFromADispatch)
-        }
-    }
-    if (action.type === 'someActionWithPayloadFromProps') {
-        return {
-            someStateVal: state.someStateVal.concat(action.someValuePassedDown)
-        }
-    }
-    if (action.type === 'clearState') {
-        return {
-            someStateVal: ''
-        }
-    }
+const someInitialState = {
+    someStateVal: 'this is initial state',
+    someOtherStateVal: '',
+    andAnotherStateVal: ''
+}
 
-    return state;
+const mySlice = createSlice({
+    name: 'sampleSliceForStateManagement',
+    initialState: someInitialState,
+    reducers: {
+        someAction(state) {
+            // behind the scenes, below is equivalent to state.someStateval = state.someStateVal.concat... etc
+            state.someStateVal = state.someStateVal.concat(' someStateVal altered. ')
+        },
+        // make sure to include an action parameter when using slice and exporting the actions
+        someActionWithPayload(state, action) {
+            state.someStateVal = state.someStateVal.concat(action.payload)
+            //when using slices, and exporting slice actions to be used with dispatch... 
+            // the property name is always payload.
+            // see TestComponent.js, line 14 for example
+        },
+        clearState(state) {
+            state.someStateVal = ''
+        },
+    }
 })
 
-const store = createStore(myReducer);
+const store = configureStore({
+    reducer: mySlice.reducer
+});
+
+/**
+ * For above... if using more than one reducer, you'd do like so:
+ * reducer: { mySlice: mySlice.reducer, myOtherSlice: myOtherSlice.reducer}
+ * 
+ */
+export const mySliceActions  = mySlice.actions;
 
 export default store;
