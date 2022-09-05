@@ -12,7 +12,7 @@ const mySlice = createSlice({
     initialState: someInitialState,
     reducers: {
         someAction(state) {
-            // behind the scenes, below is equivalent to state.someStateval = state.someStateVal.concat... etc
+            // behind the scenes, you could actually drop the left hand side of the statement
             state.someStateVal = state.someStateVal.concat(' someStateVal altered. ')
         },
         // make sure to include an action parameter when using slice and exporting the actions
