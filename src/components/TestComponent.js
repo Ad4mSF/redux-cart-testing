@@ -13,7 +13,7 @@ const TestComponent = (props) => {
     }
 
     const someHandlerWithSameplePropertyFromProps = () => {
-        dispatch({ type: 'someActionWithPayload', samplePropertyFromADispatch: props.sampleProperty })
+        dispatch({ type: 'someActionWithPayloadFromProps', samplePropertyFromADispatch: props.sampleProperty })
     }
     const clearState = () => {
         dispatch({ type: 'clearState'})
